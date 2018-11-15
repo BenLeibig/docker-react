@@ -1,9 +1,22 @@
 sudo: require
 services:
   - docker
+
 before_install:
     - docker build -t bleibig/docker-react -f Dockerfile.dev .
 
-
 script:
   - docker run bleibig/docker-react npm run test -- --coverage
+
+deploy:
+  provider: elasticbeanstalk
+  region: "eu-central-1"
+  app: "DockerReact"
+  env: "DockerReact-env"
+  bucket_name: "elasticbeanstalk-eu-central-1-431215843632"
+  bucket_paht: "DockerReact"
+  on:
+    branch: master
+  access_key_id: "$AWS_ACCESS_KEY"
+  secret_access_key:
+    secure: "$AWS_SECRET_KEY"
