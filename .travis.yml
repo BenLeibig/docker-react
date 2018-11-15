@@ -1,0 +1,9 @@
+sudo: require
+services:
+  - docker
+  before_install:
+    - docker build -t bleibig/docker-react -f Dockerfile.dev .
+
+
+script:
+  - docker run bleibig/docker-react npm run test -- --coverage
